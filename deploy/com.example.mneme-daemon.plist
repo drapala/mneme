@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd template for the mneme retrieval daemon (macOS).
+
+  Replace the two placeholders before installing:
+    <REPO>    absolute path to this repo checkout   (e.g. /Users/you/projects/mneme)
+    <PYTHON>  absolute path to a python with mneme's deps installed
+              (e.g. <REPO>/.venv/bin/python — fastembed + numpy required for the daemon)
+
+  Optionally set any MNEME_* env var in EnvironmentVariables below (see mneme/config.py).
+  The daemon needs an index (mneme-index) and a matrix.npy in the state dir before it will serve.
+
+  Install:
+    cp deploy/com.example.mneme-daemon.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.example.mneme-daemon.plist
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.mneme-daemon</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string><PYTHON></string>
+        <string>-m</string>
+        <string>mneme.substrate_daemon</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string><REPO></string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string><REPO></string>
+        <!-- Uncomment and adjust to override defaults from mneme/config.py:
+        <key>MNEME_MEMORY_DIR</key><string>/Users/you/.mneme/memory</string>
+        <key>MNEME_VAULT_DIR</key><string>/Users/you/notes</string>
+        <key>MNEME_STATE_DIR</key><string>/Users/you/.mneme/state</string>
+        -->
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string><REPO>/state/mneme-daemon.out.log</string>
+    <key>StandardErrorPath</key>
+    <string><REPO>/state/mneme-daemon.err.log</string>
+</dict>
+</plist>

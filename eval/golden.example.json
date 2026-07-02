@@ -1,0 +1,5 @@
+[
+  {"q": "how do I configure the database connection pool size", "expect": "database-connection-config"},
+  {"q": "what is the retry policy for failed background jobs", "expect": "background-job-retry-policy"},
+  {"q": "notes on the decision to switch the cache backend to redis", "expect": "cache-backend-decision"}
+]

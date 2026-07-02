@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mneme"
+version = "0.1.0"
+description = "Local-first agent memory — semantic retrieval + staleness hygiene over a memory dir and a notes vault."
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "fastembed",
+]
+
+[project.optional-dependencies]
+# fastembed provides the cross-encoder reranker used by the query/daemon/rerank_eval paths.
+# numpy is required by the daemon (matrix.npy). The index/eval/sweep paths only need the stdlib
+# plus a running ollama for embeddings.
+
+[project.scripts]
+mneme-index = "mneme.index_chunked:main"
+mneme-query = "mneme.substrate_query:main"
+mneme-sweep = "mneme.sweep:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mneme"]
