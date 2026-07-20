@@ -46,7 +46,9 @@ SIM_SCORES = H(
         "HARNESS_SIM_SCORES", "~/.claude/skills/audit-convergence/bench/scores"
     )
 )
-OUT_DIR = Path(H(str(VAULT_DIR))) / "harness"
+# hostname namespace: shared flat dir clobbers across synced machines
+HOST = os.environ.get("HARNESS_HOST", os.uname().nodename.split(".")[0])
+OUT_DIR = Path(H(str(VAULT_DIR))) / "harness" / HOST
 
 
 def rows(path: str) -> list[dict]:
